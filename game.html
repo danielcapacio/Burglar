@@ -1,0 +1,332 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+<script>
+myTimer = 0;
+movingRight = false;
+movingTop = true;
+
+function drive() {
+	if (movingRight) {
+		img.style.left = parseInt(img.style.left) + 1 + 'px';
+	} else {
+		img.style.left = parseInt(img.style.left) - 1 + 'px';
+	}
+}
+function run() {
+    burgs.style.left = parseInt(burgs.style.left) + 1 + 'px';
+}
+//=====================================================================
+//=====================================================================
+function driveBlue1() {
+    if (movingTop)
+        bluecar1.style.top = parseInt(bluecar1.style.top) + 1 + 'px';
+    else
+        bluecar1.style.top = parseInt(bluecar1.style.top) - 1 + 'px';
+}
+function driveBlue2() {
+    if (movingTop)
+        bluecar2.style.top = parseInt(bluecar2.style.top) + 1 + 'px';
+    else
+        bluecar2.style.top = parseInt(bluecar2.style.top) - 1 + 'px';
+}
+function driveBlue3() {
+    if (movingTop)
+        bluecar3.style.top = parseInt(bluecar3.style.top) + 1 + 'px';
+    else
+        bluecar3.style.top = parseInt(bluecar3.style.top) - 1 + 'px';
+}
+function driveBlue4() {
+    if (movingTop)
+        bluecar4.style.top = parseInt(bluecar4.style.top) + 1 + 'px';
+    else
+        bluecar4.style.top = parseInt(bluecar4.style.top) - 1 + 'px';
+}
+function driveBlue5() {
+    if (movingTop)
+        bluecar5.style.top = parseInt(bluecar5.style.top) + 1 + 'px';
+    else
+        bluecar5.style.top = parseInt(bluecar5.style.top) - 1 + 'px';
+}
+function driveBlue6() {
+    if (movingTop)
+        bluecar6.style.top = parseInt(bluecar6.style.top) + 1 + 'px';
+    else
+        bluecar6.style.top = parseInt(bluecar6.style.top) - 1 + 'px';
+}
+//=====================================================================
+//=====================================================================
+
+$(document).ready(function() {
+	img = document.getElementById("car");
+	carPos = img.getBoundingClientRect();
+    burgs = document.getElementById("burglars");
+    burgsPos = burgs.getBoundingClientRect();
+
+    bluecar1 = document.getElementById("bluecar1");
+    bluecar2 = document.getElementById("bluecar2");
+    bluecar3 = document.getElementById("bluecar3");
+    bluecar4 = document.getElementById("bluecar4");
+    bluecar5 = document.getElementById("bluecar5");
+    bluecar6 = document.getElementById("bluecar6");
+
+    /*
+    // left collision detection
+    var leftEdge = setInterval(function() {
+        carPos = img.getBoundingClientRect();
+        if (carPos.left < 0) {
+            alert('Car crashed!');
+            clearInterval(leftEdge);
+            // clearInterval(myTimer);
+        }
+    }, 1);
+    */
+
+    // right collision detection
+    var rightEdge = setInterval(function() {
+        carPos = img.getBoundingClientRect();
+        if (($(window).width() - (carPos.right + 3)) < 0) {
+            alert('Congratulations!\nYou caught the burglars!');
+            clearInterval(rightEdge);
+            clearInterval(myTimer);
+            clearInterval(b1);
+            clearInterval(b2);
+            clearInterval(b3);
+            clearInterval(b4);
+            clearInterval(b5);
+            clearInterval(b6);
+            location.reload();
+        }
+    }, 1);
+
+    var runBurgRun = setInterval(run, 200);
+
+    var rightEdge2 = setInterval(function() {
+        burgPos = burgs.getBoundingClientRect();
+        if (($(window).width() - (burgPos.right + 3)) < 0) {
+            alert('Oh no, the burglars got away.\nTry again');
+            clearInterval(rightEdge2);
+            clearInterval(runBurgRun);
+            clearInterval(myTimer);
+            clearInterval(b1);
+            clearInterval(b2);
+            clearInterval(b3);
+            clearInterval(b4);
+            clearInterval(b5);
+            clearInterval(b6);
+            location.reload();
+        }
+    }, 5);
+
+    //=====================================================================
+    //=====================================================================
+    var b1 = setInterval(function() {
+        driveBlue1();
+        bcar1 = bluecar1.getBoundingClientRect();
+        if ($(window).height() - (bcar1.bottom)  < 0) {
+            movingTop = !movingTop;
+        }
+        if (bcar1.top < 0) {
+            movingTop = true;
+        }
+    }, 1);
+    var b2 = setInterval(function() {
+        driveBlue2();
+        bcar2 = bluecar2.getBoundingClientRect();
+        if ($(window).height() - (bcar2.bottom + 3)  < 0) {
+            movingTop = !movingTop;
+        }
+        if (bcar2.top < 0) {
+            movingTop = true;
+        }
+    }, 1);
+    var b3 = setInterval(function() {
+        driveBlue3();
+        bcar3 = bluecar3.getBoundingClientRect();
+        if ($(window).height() - (bcar3.bottom + 10)  < 0) {
+            movingTop = !movingTop;
+        }
+        if (bcar1.top < 0) {
+            movingTop = true;
+        }
+    }, 1);
+    var b4 = setInterval(function() {
+        driveBlue4();
+        bcar4 = bluecar4.getBoundingClientRect();
+        if ($(window).height() - (bcar4.bottom + 3)  < 0) {
+            movingTop = !movingTop;
+        }
+        if (bcar1.top < 0) {
+            movingTop = true;
+        }
+    }, 1);
+    var b5 = setInterval(function() {
+        driveBlue5();
+        bcar5 = bluecar5.getBoundingClientRect();
+        if ($(window).height() - (bcar5.bottom + 3)  < 0) {
+            movingTop = !movingTop;
+        }
+        if (bcar5.top < 0) {
+            movingTop = true;
+        }
+    }, 1);
+    var b6 = setInterval(function() {
+        driveBlue6();
+        bcar6 = bluecar6.getBoundingClientRect();
+        if ($(window).height() - (bcar6.bottom + 3)  < 0) {
+            movingTop = !movingTop;
+        }
+        if (bcar6.top < 0) {
+            movingTop = true;
+        }
+    }, 1);
+
+    var collision = setInterval(function() {
+        carPos = img.getBoundingClientRect();
+        bcar1 = bluecar1.getBoundingClientRect();
+        bcar2 = bluecar2.getBoundingClientRect();
+        bcar3 = bluecar3.getBoundingClientRect();
+        bcar4 = bluecar4.getBoundingClientRect();
+        bcar5 = bluecar5.getBoundingClientRect();
+        bcar6 = bluecar6.getBoundingClientRect();
+
+        /*
+        window.onclick = function () {
+            alert(
+                'policetop: ' + carPos.top + '\n' +
+                'policebottom: ' + carPos.bottom + '\n' +
+                'policeleft: ' + carPos.left + '\n' +
+                'policeright: ' + carPos.right + '\n\n' +
+
+                'top: ' + bcar1.top + '\n' +
+                'bottom: ' + bcar1.bottom + '\n' +
+                'left: ' + bcar1.left + '\n' +
+                'right: ' + bcar1.right + '\n'
+            );
+        };
+        */
+
+        function clear() {
+            alert('Game over! You crashed.\nTry again');
+            clearInterval(collision);
+            clearInterval(myTimer);
+            clearInterval(b1);
+            clearInterval(b2);
+            clearInterval(b3);
+            clearInterval(b4);
+            clearInterval(b5);
+            clearInterval(b6);
+            location.reload();
+        }
+        //=====================================================================================================
+        //=====================================================================================================
+        if ((bcar1.bottom >= 325 && bcar1.bottom <= 440) && (carPos.right >= 210 && carPos.right <= 305)) {
+            clear();
+        }
+        if ((bcar2.bottom >= 325 && bcar2.bottom <= 440) && (carPos.right >= 355 && carPos.right <= 460)) {
+            clear();
+        }
+        if ((bcar3.bottom >= 325 && bcar3.bottom <= 440) && (carPos.right >= 508 && carPos.right <= 608)) {
+            clear();
+        }
+        if ((bcar4.bottom >= 325 && bcar4.bottom <= 440) && (carPos.right >= 660 && carPos.right <= 760)) {
+            clear();
+        }
+        if ((bcar5.bottom >= 325 && bcar5.bottom <= 440) && (carPos.right >= 808 && carPos.right <= 913)) {
+            clear();
+        }
+        if ((bcar6.bottom >= 325 && bcar6.bottom <= 440) && (carPos.right >= 956 && carPos.right <= 1059)) {
+            clear();
+        }
+    });
+
+    /*
+	window.onclick=function() {
+        movingRight = !movingRight;
+	    if (myTimer === 0) {
+            myTimer = setInterval(drive, 5);
+		}
+	};
+
+	window.ondblclick=function() {
+		clearInterval(myTimer);
+		myTimer = 0;
+	};
+	*/
+});
+
+onkeydown=moveCarWithKeyboard;
+function moveCarWithKeyboard(e) {
+	var keycode = null;
+
+	if (e.event) {
+		keycode = e.event;
+	} else if (e.which) {
+		keycode = e.which;
+	}
+
+	// keycodes for right and left
+	if (keycode === 39) {
+		movingRight = true;
+        if (myTimer === 0) {
+            myTimer = setInterval(drive, 5);
+        }
+	} else if(keycode === 37) {
+		movingRight = false;
+        if (myTimer === 0) {
+            myTimer = setInterval(drive, 5);
+        }
+	} else if (keycode === 38 || keycode === 40) {
+        clearInterval(myTimer);
+        myTimer = 0;
+	}
+}
+
+</script>
+    <style>
+        body {
+            background-color: lightgreen;
+            font-family: ‘Lucida Console’, Monaco, monospace;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 10px;
+            font-family: ‘Lucida Console’, Monaco, monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h1>
+            Catch the Burglars!
+        </h1>
+    </div>
+
+    <br>
+    <div style="position: absolute; left: 35%;">
+        Instructions:<br>
+        <small>
+            - <i>Left</i> & <i>Right</i> arrow keys to change directions<br>
+            - <i>Up</i> or <i>Down</i> to stop
+        </small>
+    </div>
+
+    <img src="police-car.png" style="position:absolute; left:10px; width: 60px; top: 50%;" id="car">
+    <img src="collision-car-blue.png" style="position:absolute; height: 100px; left:200px; top: 5px;" id="bluecar1">
+    <img src="collision-car-red.png" style="position:absolute; height: 100px; left:350px; top: 5px;" id="bluecar2">
+    <img src="collision-car-blue.png" style="position:absolute; height: 100px; left:500px; top: 5px;" id="bluecar3">
+    <img src="collision-car-red.png" style="position:absolute; height: 100px; left:650px; top: 5px;" id="bluecar4">
+    <img src="collision-car-blue.png" style="position:absolute; height: 100px; left:800px; top: 5px;" id="bluecar5">
+    <img src="collision-car-red.png" style="position:absolute; height: 100px; left:950px; top: 5px;" id="bluecar6">
+
+    <img src="burglars.png" style="position:absolute; height: 110px; left: 1100px; top: 45%;" id="burglars">
+
+    <footer>
+        Created by Daniel Capacio
+    </footer>
+</body>
+</html>
