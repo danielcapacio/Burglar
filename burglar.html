@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+    canvas {
+        border:1px solid #d3d3d3;
+        background:url(shopback.jpg);
+        background-size:100%;
+    }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="mechanics.js"></script>
+</head>
+<body onload="startGame()">
+    <h2>Burglars</h2>
+        <p></p>
+		
+<script>
+    $(document).keydown(function(e){
+		var key = e.which;
+		if(key == "39" ) moveright();
+		else if(key == "37") moveleft();
+        else if(key == "38") movedown();
+        else if(key == "40") moveup();
+	});
+    $(document).keyup(function(e){
+		clearmove();
+	});
+</script>
+<br>
+<button onclick="startGame()" class="btn btn-primary">Restart</button>
+
+</body>
+</html>
