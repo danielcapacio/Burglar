@@ -15,10 +15,12 @@ var myGameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     stop : function() {
+        continueAnimating = false;
         clearInterval(this.interval);
     }
 }
 var player;
+var burglar; 
 var continueAnimating = false;
 var itemWidth = 80;
 var itemHeight = 50;
@@ -30,6 +32,7 @@ for (var i = 0; i < downs; i++) {
 
 function startGame() {
     player = new component(80, 50, "police-car.png", 20, 230, "image", 0, 0);
+    burglar = new component(80, 50, "burglars.png", 700, 230, "image", 0.3, 0);
     myGameArea.start();
 }
 function component(width, height, color, x, y, type, speedX, speedY) {
@@ -68,6 +71,12 @@ function updateGameArea() {
         continueAnimating = true;
         animate();
     };
+    if(isColliding(player, burglar)) {
+        myGameArea.stop();
+        alert("You win\nCriminals go to jail -- but is that really the best way to rehabilitate our citizens?\nSociety loses"); 
+    }
+    burglar.newPos();
+    burglar.update();
     player.newPos();
     player.update();
 }
@@ -116,8 +125,8 @@ function animate() {
         if (isColliding(item, player)) {
             resetItem(item);
             myGameArea.stop();
-			continueAnimating=false;
-            alert("you lose");
+			//continueAnimating=false;
+            alert("Down in the line of duty. Society loses.");
             //set to lose 
         }
         item.y += item.speed;
