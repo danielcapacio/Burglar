@@ -22,17 +22,17 @@ var player;
 var continueAnimating = false;
 var itemWidth = 80;
 var itemHeight = 50;
-var downs = 9;
+var downs = 11;
 var downItems = [];
 for (var i = 0; i < downs; i++) {
     addDownItem();
 }
 
 function startGame() {
-    player = new component(80, 50, "police-car.png", 20, 230, "image");
+    player = new component(80, 50, "police-car.png", 20, 230, "image", 0, 0);
     myGameArea.start();
 }
-function component(width, height, color, x, y, type) {
+function component(width, height, color, x, y, type, speedX, speedY) {
     this.type = type;
     if (type == "image") {
         this.image = new Image();
@@ -40,8 +40,8 @@ function component(width, height, color, x, y, type) {
     }
     this.width = width;
     this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;    
+    this.speedX = speedX;
+    this.speedY = speedY;    
     this.x = x;
     this.y = y;    
     this.update = function() {
@@ -61,29 +61,6 @@ function component(width, height, color, x, y, type) {
         this.y += this.speedY;        
     }
 }
-
-function textcomponent(width, height, color, x, y, type) {
-  this.type = type;
-  this.width = width;
-  this.height = height;
-  this.text = 0;
-  this.speedX = 0;
-  this.speedY = 0; 
-  this.x = x;
-  this.y = y; 
-  this.update = function() {
-    ctx = myGameArea.context;
-    if (this.type == "text") {
-      ctx.font = this.width + " " + this.height;
-      ctx.fillStyle = color;
-      ctx.fillText(this.text, this.x, this.y);
-    } else {
-      ctx.fillStyle = color;
-      ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-  }
-}
-
 function updateGameArea() {
     myGameArea.clear();
     drawAll();
@@ -126,9 +103,9 @@ function addDownItem() {
     downItems.push(item);
 }
 function resetItem(item) {
-    item.x = Math.random() * (myGameArea.canvas.width - itemWidth);
-    item.y = 15 + Math.random() * 30;
-    item.speed = 0.2 + Math.random() * 0.5;
+    item.x = itemWidth + (Math.random() * (myGameArea.canvas.width - itemWidth));
+    item.y = 0;
+    item.speed = 1 + Math.random() * 0.5;
 }
 function animate() {
     if (continueAnimating) {
@@ -139,6 +116,7 @@ function animate() {
         if (isColliding(item, player)) {
             resetItem(item);
             myGameArea.stop();
+			continueAnimating=false;
             alert("you lose");
             //set to lose 
         }
