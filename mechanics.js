@@ -20,11 +20,11 @@ var myGameArea = {
     }
 }
 var player;
-var burglar; 
+var burglar;
 var continueAnimating = false;
 var itemWidth = 80;
 var itemHeight = 50;
-var downs = 11;
+var downs = 12;
 var downItems = [];
 for (var i = 0; i < downs; i++) {
     addDownItem();
@@ -32,7 +32,7 @@ for (var i = 0; i < downs; i++) {
 
 function startGame() {
     player = new component(80, 50, "police-car.png", 20, 230, "image", 0, 0);
-    burglar = new component(80, 50, "burglars.png", 700, 230, "image", 0.3, 0);
+    burglar = new component(80, 50, "burglars.png", 400, 230, "image", 0.7, 0);
     myGameArea.start();
 }
 function component(width, height, color, x, y, type, speedX, speedY) {
@@ -44,14 +44,14 @@ function component(width, height, color, x, y, type, speedX, speedY) {
     this.width = width;
     this.height = height;
     this.speedX = speedX;
-    this.speedY = speedY;    
+    this.speedY = speedY;
     this.x = x;
-    this.y = y;    
+    this.y = y;
     this.update = function() {
         ctx = myGameArea.context;
         if (type == "image") {
-            ctx.drawImage(this.image, 
-                this.x, 
+            ctx.drawImage(this.image,
+                this.x,
                 this.y,
                 this.width, this.height);
         } else {
@@ -61,7 +61,7 @@ function component(width, height, color, x, y, type, speedX, speedY) {
     }
     this.newPos = function() {
         this.x += this.speedX;
-        this.y += this.speedY;        
+        this.y += this.speedY;
     }
 }
 function updateGameArea() {
@@ -73,7 +73,7 @@ function updateGameArea() {
     };
     if(isColliding(player, burglar)) {
         myGameArea.stop();
-        alert("You win\nCriminals go to jail -- but is that really the best way to rehabilitate our citizens?\nSociety loses"); 
+        alert("You win\nCriminals go to jail -- but is that really the best way to rehabilitate our citizens?\nSociety loses");
     }
     burglar.newPos();
     burglar.update();
@@ -82,57 +82,71 @@ function updateGameArea() {
 }
 
 function moveleft() {
-    player.speedX = -2; 
+    player.speedX = -2;
 }
 
 function moveright() {
-    player.speedX = 2; 
+    player.speedX = 2;
 }
 
 function moveup() {
-    player.speedY = 2; 
+    player.speedY = 2;
 }
 
 function movedown() {
-    player.speedY = -2; 
+    player.speedY = -2;
 }
 
 function clearmove() {
-    player.speedX = 0; 
-    player.speedY = 0; 
+    player.speedX = 0;
+    player.speedY = 0;
 }
 
-//Add Cars 
+//Add Cars
 function addDownItem() {
     var item = {
         width: itemWidth,
-        height: itemHeight
+        height: itemHeight,
+        color :  Math.random() < 0.5 ? "blue" : "red"
     }
     resetItem(item);
     downItems.push(item);
 }
+
 function resetItem(item) {
+
     item.x = itemWidth + (Math.random() * (myGameArea.canvas.width - itemWidth));
-    item.y = 0;
-    item.speed = 1 + Math.random() * 0.5;
+    item.y = item.color === "blue" ? 0 : myGameArea.canvas.height;
+    item.speed = 1 + (Math.random() * 1);
 }
+
 function animate() {
     if (continueAnimating) {
         requestAnimationFrame(animate);
     }
     for (var i = 0; i < downItems.length; i++) {
         var item = downItems[i];
+
         if (isColliding(item, player)) {
             resetItem(item);
             myGameArea.stop();
-			//continueAnimating=false;
+
             alert("Down in the line of duty. Society loses.");
-            //set to lose 
+            //set to lose
         }
-        item.y += item.speed;
-        if (item.y > myGameArea.canvas.height) {
+
+        else if (burglar.x > myGameArea.canvas.width){
+          myGameArea.stop();
+
+          alert("Burglars got escaped. Society loses.");
+        }
+
+        item.y =  item.y + (item.color === "blue" ? item.speed : -item.speed);
+
+        if (item.color === "blue" && item.y > myGameArea.canvas.height) {
             resetItem(item);
-            //reverse direction
+        } else if (item.color ==="red" && item.y < 0) {
+            resetItem(item);
         }
     }
     drawAll();
@@ -145,11 +159,11 @@ function isColliding(a, b) {
 
 function drawAll() {
     for (var i = 0; i < downItems.length; i++) {
-        var item = downItems[i];
+        var item    = downItems[i];
         var itemimg = new Image();
-        itemimg.src = "collision-car-blue.png";
-        myGameArea.context.drawImage(itemimg, 
-                item.x, 
+        itemimg.src = item.color === "blue" ? "collision-car-blue.png" : "collision-car-red.png";
+        myGameArea.context.drawImage(itemimg,
+                item.x,
                 item.y,
                 item.width, item.height);
     }
